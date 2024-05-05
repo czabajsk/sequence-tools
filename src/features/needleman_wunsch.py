@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 The Needleman-Wunsch Algorithm
 """
@@ -41,16 +40,16 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
             if temporary_scores[2] == tmax:
                 pointers_to_trace_optimal_alignment[i + 1, j + 1] += 4
 
-    inverted_x_result, inverted_y_result = trace_through_optimal_alignment(pointers_to_trace_optimal_alignment,
-                                                                           sequence_one,
-                                                                           sequence_two)
+    inverted_x_result, inverted_y_result = trace_through_alignment(pointers_to_trace_optimal_alignment,
+                                                                   sequence_one,
+                                                                   sequence_two)
 
     return '\n'.join([inverted_x_result, inverted_y_result])
 
 
-def trace_through_optimal_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
-                                    sequence_one: str,
-                                    sequence_two: str) -> tuple[str, str]:
+def trace_through_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
+                            sequence_one: str,
+                            sequence_two: str) -> tuple[str, str]:
     """
     Builds optimal alignment based on the scores matrix
     :param pointers_to_trace_optimal_alignment: optimal alignment scores
@@ -94,8 +93,3 @@ def initialise_grid(gap: int, grid_x_dimension: int, grid_y_dimension: int) -> n
     scores_grid[:, 0] = np.linspace(0, -grid_x_dimension * gap, grid_x_dimension + 1)
     scores_grid[0, :] = np.linspace(0, -grid_y_dimension * gap, grid_y_dimension + 1)
     return scores_grid
-
-#todo: create test out of the examples
-x = "GATTACA"
-y = "GCATGCU"
-print(needleman_wunsch(x, y))
