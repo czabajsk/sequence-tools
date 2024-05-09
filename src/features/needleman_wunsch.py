@@ -14,11 +14,39 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
     :param gap: penalty value for each gap
     :return: String with the pairwise sequence alignment
     """
+    # Optimal score at each possible pair of characters.
+    scores_grid = initialise_grid(sequence_one, sequence_two, gap)
+    # Pointers to trace through an optimal alignment.
+    pointers_to_trace_optimal_alignment = fill_scores(
+        scores_grid,
+        sequence_one,
+        sequence_two,
+        gap,
+        match,
+        mismatch)
+
+    inverted_x_result, inverted_y_result = trace_through_alignment(
+        pointers_to_trace_optimal_alignment,
+        sequence_one,
+        sequence_two)
+
+    return '\n'.join([inverted_x_result, inverted_y_result])
+
+
+def fill_scores(scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatch=1, verbose=False):
+    """
+    Fill the scores
+    :param scores_grid: initial scores grid
+    :param sequence_one: first sequence
+    :param sequence_two: second sequence
+    :param gap: gap cost
+    :param match: match score
+    :param mismatch: mismatch cost
+    :param verbose: if True prints the output
+    :return:
+    """
     grid_x_dimension = len(sequence_one)
     grid_y_dimension = len(sequence_two)
-    # Optimal score at each possible pair of characters.
-    scores_grid = initialise_grid(gap, grid_x_dimension, grid_y_dimension)
-    # Pointers to trace through an optimal alignment.
     pointers_to_trace_optimal_alignment = np.zeros((grid_x_dimension + 1, grid_y_dimension + 1))
     pointers_to_trace_optimal_alignment[:, 0] = 3
     pointers_to_trace_optimal_alignment[0, :] = 4
@@ -39,12 +67,10 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
                 pointers_to_trace_optimal_alignment[i + 1, j + 1] += 3
             if temporary_scores[2] == tmax:
                 pointers_to_trace_optimal_alignment[i + 1, j + 1] += 4
-
-    inverted_x_result, inverted_y_result = trace_through_alignment(pointers_to_trace_optimal_alignment,
-                                                                   sequence_one,
-                                                                   sequence_two)
-
-    return '\n'.join([inverted_x_result, inverted_y_result])
+        if verbose:
+            print(f"\n\nIteration: {i}")
+            print(pointers_to_trace_optimal_alignment)
+    return pointers_to_trace_optimal_alignment
 
 
 def trace_through_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
@@ -81,14 +107,18 @@ def trace_through_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
     return inverted_x_result, inverted_y_result
 
 
-def initialise_grid(gap: int, grid_x_dimension: int, grid_y_dimension: int) -> np.ndarray:
+def initialise_grid(sequence_one: str, sequence_two: str, gap=1) -> np.ndarray:
     """
     Initialise scores matrix based on the given dimensions
+    :param sequence_one: first sequence
+    :param sequence_two: second sequence
     :param gap: cost of the gap
-    :param grid_x_dimension: x dimension of the grid
-    :param grid_y_dimension: y dimension of the grid
     :return: initialised grid
     """
+
+    grid_x_dimension = len(sequence_one)
+    grid_y_dimension = len(sequence_two)
+
     scores_grid = np.zeros((grid_x_dimension + 1, grid_y_dimension + 1))
     scores_grid[:, 0] = np.linspace(0, -grid_x_dimension * gap, grid_x_dimension + 1)
     scores_grid[0, :] = np.linspace(0, -grid_y_dimension * gap, grid_y_dimension + 1)
