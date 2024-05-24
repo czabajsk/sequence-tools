@@ -28,7 +28,7 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
     return "\n".join([inverted_x_result, inverted_y_result])
 
 
-def fill_scores(
+def fill_scores(#pylint: disable=too-many-arguments
     scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatch=1, verbose=False
 ):
     """
