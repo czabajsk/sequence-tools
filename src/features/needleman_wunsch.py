@@ -18,22 +18,19 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
     scores_grid = initialise_grid(sequence_one, sequence_two, gap)
     # Pointers to trace through an optimal alignment.
     pointers_to_trace_optimal_alignment = fill_scores(
-        scores_grid,
-        sequence_one,
-        sequence_two,
-        gap,
-        match,
-        mismatch)
+        scores_grid, sequence_one, sequence_two, gap, match, mismatch
+    )
 
     inverted_x_result, inverted_y_result = trace_through_alignment(
-        pointers_to_trace_optimal_alignment,
-        sequence_one,
-        sequence_two)
+        pointers_to_trace_optimal_alignment, sequence_one, sequence_two
+    )
 
-    return '\n'.join([inverted_x_result, inverted_y_result])
+    return "\n".join([inverted_x_result, inverted_y_result])
 
 
-def fill_scores(scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatch=1, verbose=False):
+def fill_scores(
+    scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatch=1, verbose=False
+):
     """
     Fill the scores
     :param scores_grid: initial scores grid
@@ -47,7 +44,9 @@ def fill_scores(scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatc
     """
     grid_x_dimension = len(sequence_one)
     grid_y_dimension = len(sequence_two)
-    pointers_to_trace_optimal_alignment = np.zeros((grid_x_dimension + 1, grid_y_dimension + 1))
+    pointers_to_trace_optimal_alignment = np.zeros(
+        (grid_x_dimension + 1, grid_y_dimension + 1)
+    )
     pointers_to_trace_optimal_alignment[:, 0] = 3
     pointers_to_trace_optimal_alignment[0, :] = 4
     temporary_scores = np.zeros(3)
@@ -73,9 +72,11 @@ def fill_scores(scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatc
     return pointers_to_trace_optimal_alignment
 
 
-def trace_through_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
-                            sequence_one: str,
-                            sequence_two: str) -> tuple[str, str]:
+def trace_through_alignment(
+    pointers_to_trace_optimal_alignment: np.ndarray,
+    sequence_one: str,
+    sequence_two: str,
+) -> tuple[str, str]:
     """
     Builds optimal alignment based on the scores matrix
     :param pointers_to_trace_optimal_alignment: optimal alignment scores
@@ -95,15 +96,15 @@ def trace_through_alignment(pointers_to_trace_optimal_alignment: np.ndarray,
             j -= 1
         elif pointers_to_trace_optimal_alignment[i, j] in [3, 5, 7, 9]:
             result_x_dimension.append(sequence_one[i - 1])
-            result_y_dimension.append('-')
+            result_y_dimension.append("-")
             i -= 1
         elif pointers_to_trace_optimal_alignment[i, j] in [4, 6, 7, 9]:
-            result_x_dimension.append('-')
+            result_x_dimension.append("-")
             result_y_dimension.append(sequence_two[j - 1])
             j -= 1
     # Reverse the strings.
-    inverted_x_result = ''.join(result_x_dimension)[::-1]  # todo: extract method, apply to each
-    inverted_y_result = ''.join(result_y_dimension)[::-1]
+    inverted_x_result = "".join(result_x_dimension)[::-1]
+    inverted_y_result = "".join(result_y_dimension)[::-1]
     return inverted_x_result, inverted_y_result
 
 
