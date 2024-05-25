@@ -9,3 +9,4 @@ python-dotenv>=0.5.1
 numpy
 black
 pylint
+black[jupyter]
