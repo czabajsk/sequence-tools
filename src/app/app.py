@@ -59,11 +59,25 @@ def plot_score_table(n_clicks, seq_1, seq_2):
     columns.insert(0, "")
     first_column = list(seq_1)
     first_column.insert(0, "")
-    df = pd.DataFrame(columns=columns, data=pointers_to_trace_optimal_alignment)
+    df = pd.DataFrame(data=pointers_to_trace_optimal_alignment)
     df.insert(loc=0, column="*", value=first_column)
-    return dash_table.DataTable( #todo: fix DataFrame columns are not unique, some columns will be omitted.
-        df.to_dict("records"), [{"name": i, "id": i} for i in df.columns], id="tbl"
+    return dash_table.DataTable(
+        df.to_dict("records"),
+        [{"name": to_column_label(columns, i), "id": str(i)} for i in df.columns],
+        id="tbl",
     )
+
+
+def to_column_label(column_labels, column_in_df):
+    """
+    Necessary to keep labels consistent but ids of columns unique
+    :param column_labels:
+    :param column_in_df:
+    :return:
+    """
+    if column_in_df in ["*", ""]:
+        return column_in_df
+    return column_labels[int(column_in_df)]
 
 
 if __name__ == "__main__":
