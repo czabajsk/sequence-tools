@@ -1,10 +1,10 @@
 """
 Web app
 """
-from dash import Dash, html, dcc, callback, Output, Input, State
+from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
-import dash_bio as dashbio
-from src.features.needleman_wunsch import needleman_wunsch
+import pandas as pd
+from src.features.needleman_wunsch import needleman_wunsch, initialise_grid, fill_scores
 
 app = Dash()
 
@@ -42,29 +42,29 @@ def generate_raw_alignment(n_clicks, seq_1, seq_2):
     [State("seq_1", "value"),
      State("seq_2", "value")],
 )
-def plot_alignment_chart(n_clicks, seq_1, seq_2):
+def plot_score_table(n_clicks, seq_1, seq_2):
     """
-    Plot interactive chart
+    Plot scores
     :param n_clicks: button clicks
     :param seq_1: first sequence
     :param seq_2: second sequence
     :return: widget
     """
     if n_clicks is None:
-        return 'No data.'
-    data = f""">SEQUENCE_1
-{seq_1}
->SEQUENCE_2
-{seq_2}"""
-
-    return dashbio.AlignmentChart(
-        id='my-default-alignment-viewer',
-        data=data,
-        showconservation=True,
-        height=500,
-        tilewidth=30,
-        showgap=True
+        raise PreventUpdate
+    scores_grid = initialise_grid(seq_1, seq_2)
+    pointers_to_trace_optimal_alignment = fill_scores(
+        scores_grid, seq_1, seq_2
     )
+    columns = list(seq_2)
+    columns.insert(0, "")
+    first_column = list(seq_1)
+    first_column.insert(0, "")
+    df = pd.DataFrame(columns=columns, data=pointers_to_trace_optimal_alignment)
+    df.insert(loc=0, column='*', value=first_column)
+    return dash_table.DataTable(
+        df.to_dict('records'),
+        [{"name": i, "id": i} for i in df.columns], id='tbl')
 
 
 if __name__ == "__main__":
