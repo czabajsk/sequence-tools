@@ -5,7 +5,12 @@ Web app
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
 import pandas as pd
-from src.features.needleman_wunsch import needleman_wunsch, initialise_grid, fill_scores
+from src.features.needleman_wunsch import (
+    needleman_wunsch,
+    initialise_grid,
+    fill_scores,
+    trace_through_alignment,
+)
 
 app = Dash()
 
@@ -55,6 +60,10 @@ def plot_score_table(n_clicks, seq_1, seq_2):
         raise PreventUpdate
     scores_grid = initialise_grid(seq_1, seq_2)
     pointers_to_trace_optimal_alignment = fill_scores(scores_grid, seq_1, seq_2)
+    _, _, trace = trace_through_alignment(
+        pointers_to_trace_optimal_alignment, seq_1, seq_2
+    )
+    print(trace)
     columns = list(seq_2)
     columns.insert(0, "")
     first_column = list(seq_1)
@@ -65,6 +74,7 @@ def plot_score_table(n_clicks, seq_1, seq_2):
         df.to_dict("records"),
         [{"name": to_column_label(columns, i), "id": str(i)} for i in df.columns],
         id="tbl",
+        style_data_conditional=get_cell_styles(trace),
     )
 
 
@@ -78,6 +88,30 @@ def to_column_label(column_labels, column_in_df):
     if column_in_df in ["*", ""]:
         return column_in_df
     return column_labels[int(column_in_df)]
+
+
+def get_cell_styles(matrix):
+    """
+    Generates styles for cells based on trace
+    """
+    result = [
+        {
+            "if": {"row_index": 0, "column_id": "0"},
+            "backgroundColor": "#FF4136",
+            "color": "white",
+        }
+    ]
+    for row_index, row in enumerate(matrix):
+        for col_index, value in enumerate(row):
+            if value > 0:
+                style = {
+                    "if": {"row_index": row_index, "column_id": f"{col_index}"},
+                    "backgroundColor": "#FF4136",
+                    "color": "white",
+                }
+                result.append(style)
+
+    return result
 
 
 if __name__ == "__main__":
