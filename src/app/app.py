@@ -1,6 +1,7 @@
 """
 Web app
 """
+
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
 import pandas as pd
@@ -14,8 +15,8 @@ app.layout = [
     dcc.Input(placeholder="Sequence B", type="text", required=True, id="seq_2"),
     html.Button("Generate", id="generate_alignment"),
     html.Pre(id="body-div"),
-    html.Div(id='default-alignment-viewer-output'),
-    html.Div(id="output-container")
+    html.Div(id="default-alignment-viewer-output"),
+    html.Div(id="output-container"),
 ]
 
 
@@ -36,11 +37,11 @@ def generate_raw_alignment(n_clicks, seq_1, seq_2):
         raise PreventUpdate
     return needleman_wunsch(seq_1, seq_2)
 
+
 @callback(
     Output("output-container", "children"),
     [Input("generate_alignment", "n_clicks")],
-    [State("seq_1", "value"),
-     State("seq_2", "value")],
+    [State("seq_1", "value"), State("seq_2", "value")],
 )
 def plot_score_table(n_clicks, seq_1, seq_2):
     """
@@ -53,18 +54,16 @@ def plot_score_table(n_clicks, seq_1, seq_2):
     if n_clicks is None:
         raise PreventUpdate
     scores_grid = initialise_grid(seq_1, seq_2)
-    pointers_to_trace_optimal_alignment = fill_scores(
-        scores_grid, seq_1, seq_2
-    )
+    pointers_to_trace_optimal_alignment = fill_scores(scores_grid, seq_1, seq_2)
     columns = list(seq_2)
     columns.insert(0, "")
     first_column = list(seq_1)
     first_column.insert(0, "")
     df = pd.DataFrame(columns=columns, data=pointers_to_trace_optimal_alignment)
-    df.insert(loc=0, column='*', value=first_column)
-    return dash_table.DataTable(
-        df.to_dict('records'),
-        [{"name": i, "id": i} for i in df.columns], id='tbl')
+    df.insert(loc=0, column="*", value=first_column)
+    return dash_table.DataTable( #todo: fix DataFrame columns are not unique, some columns will be omitted.
+        df.to_dict("records"), [{"name": i, "id": i} for i in df.columns], id="tbl"
+    )
 
 
 if __name__ == "__main__":
