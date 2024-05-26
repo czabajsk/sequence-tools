@@ -60,9 +60,10 @@ def plot_alignment_chart(n_clicks, seq_1, seq_2):
     return dashbio.AlignmentChart(
         id='my-default-alignment-viewer',
         data=data,
-        showconservation=False,
+        showconservation=True,
         height=500,
         tilewidth=30,
+        showgap=True
     )
 
 
