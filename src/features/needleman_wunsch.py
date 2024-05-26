@@ -102,10 +102,10 @@ def trace_through_alignment(
     result_y_dimension = []
     _, _, trace = create_matrix_with_zeros(sequence_one, sequence_two)
     while i > 0 or j > 0:
+        trace[i][j] = 1
         if pointers_to_trace_optimal_alignment[i, j] in [2, 5, 6, 9]:
             result_x_dimension.append(sequence_one[i - 1])
             result_y_dimension.append(sequence_two[j - 1])
-            trace[i][j] = 1
             i -= 1
             j -= 1
         elif pointers_to_trace_optimal_alignment[i, j] in [3, 5, 7, 9]:
