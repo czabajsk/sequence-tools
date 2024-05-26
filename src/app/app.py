@@ -52,15 +52,15 @@ def plot_alignment_chart(n_clicks, seq_1, seq_2):
     """
     if n_clicks is None:
         return 'No data.'
-    data = f""">
-    {seq_1}
-    >
-    {seq_2}
-    """
+    data = f""">SEQUENCE_1
+{seq_1}
+>SEQUENCE_2
+{seq_2}"""
 
     return dashbio.AlignmentChart(
         id='my-default-alignment-viewer',
         data=data,
+        showconservation=False,
         height=500,
         tilewidth=30,
     )
