@@ -94,10 +94,11 @@ def get_cell_styles(matrix):
     """
     Generates styles for cells based on trace
     """
+    red = "#FF4136"
     result = [
         {
             "if": {"row_index": 0, "column_id": "0"},
-            "backgroundColor": "#FF4136",
+            "backgroundColor": red,
             "color": "white",
         }
     ]
@@ -106,7 +107,7 @@ def get_cell_styles(matrix):
             if value > 0:
                 style = {
                     "if": {"row_index": row_index, "column_id": f"{col_index}"},
-                    "backgroundColor": "#FF4136",
+                    "backgroundColor": red if value > 1 else "grey",
                     "color": "white",
                 }
                 result.append(style)

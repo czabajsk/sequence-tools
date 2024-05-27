@@ -106,6 +106,7 @@ def trace_through_alignment(
         if pointers_to_trace_optimal_alignment[i, j] in [2, 5, 6, 9]:
             result_x_dimension.append(sequence_one[i - 1])
             result_y_dimension.append(sequence_two[j - 1])
+            trace[i][j] = 2
             i -= 1
             j -= 1
         elif pointers_to_trace_optimal_alignment[i, j] in [3, 5, 7, 9]:
