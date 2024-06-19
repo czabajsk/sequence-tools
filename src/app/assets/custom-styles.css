@@ -1,20 +1,47 @@
-input[type=text], pre {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+body {
+    background-color: #E3F1F2; /* Ustawia kolor tła strony na jasny szary */
+    display: flex;
+    justify-content: center;   /* Wyśrodkowuje zawartość poziomo */
+    align-items: center;       /* Wyśrodkowuje zawartość pionowo */
+    height: 100vh;             /* Ustawia wysokość body na 100% wysokości widoku (viewport) */
+    margin: 0;                 /* Usuwa domyślne marginesy body */
+    padding-top: 100px; /* Dodanie marginesu górnego */
 }
 
-button {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+h1 {
+  color: #EE6D80;
+  text-align: center;
+  font-size: 45px;
+  margin-bottom: 40px;
+}
+
+h2 {
+  color: #EE6D80;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+
+h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+p, ul {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+pre {
+  font-size: 22px;
+  color: #EE6D80;
+  text-align: center; /* Wycentrowanie tekstu */
+}
+
+/* do zwiększonych marginesów */
+.content-with-margins {
+  margin-left: 10%;
+  margin-right: 10%;
 }
