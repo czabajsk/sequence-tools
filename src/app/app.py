@@ -7,9 +7,9 @@ from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
 import pandas as pd
 
-from src.app.home_page import HOME_LAYOUT
-from src.app.info_page import EXPLANATION_LAYOUT
-from src.features.needleman_wunsch import (
+from home_page import HOME_LAYOUT
+from info_page import EXPLANATION_LAYOUT
+from features.needleman_wunsch import (
     needleman_wunsch,
     initialise_grid,
     fill_scores,
@@ -146,4 +146,4 @@ def get_cell_styles(matrix):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run_server(debug=False)
