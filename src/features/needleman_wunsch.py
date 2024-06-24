@@ -21,7 +21,7 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
         scores_grid, sequence_one, sequence_two, gap, match, mismatch
     )
 
-    inverted_x_result, inverted_y_result = trace_through_alignment(
+    inverted_x_result, inverted_y_result, _ = trace_through_alignment(
         pointers_to_trace_optimal_alignment, sequence_one, sequence_two
     )
 
@@ -42,11 +42,8 @@ def fill_scores(#pylint: disable=too-many-arguments
     :param verbose: if True prints the output
     :return:
     """
-    grid_x_dimension = len(sequence_one)
-    grid_y_dimension = len(sequence_two)
-    pointers_to_trace_optimal_alignment = np.zeros(
-        (grid_x_dimension + 1, grid_y_dimension + 1)
-    )
+    grid_x_dimension, grid_y_dimension, pointers_to_trace_optimal_alignment = create_matrix_with_zeros(sequence_one,
+                                                                                                       sequence_two)
     pointers_to_trace_optimal_alignment[:, 0] = 3
     pointers_to_trace_optimal_alignment[0, :] = 4
     temporary_scores = np.zeros(3)
@@ -72,6 +69,21 @@ def fill_scores(#pylint: disable=too-many-arguments
     return pointers_to_trace_optimal_alignment
 
 
+def create_matrix_with_zeros(sequence_one, sequence_two):
+    """
+    Generates matrix with zeros
+    :param sequence_one:
+    :param sequence_two:
+    :return:
+    """
+    grid_x_dimension = len(sequence_one)
+    grid_y_dimension = len(sequence_two)
+    pointers_to_trace_optimal_alignment = np.zeros(
+        (grid_x_dimension + 1, grid_y_dimension + 1)
+    )
+    return grid_x_dimension, grid_y_dimension, pointers_to_trace_optimal_alignment
+
+
 def trace_through_alignment(
     pointers_to_trace_optimal_alignment: np.ndarray,
     sequence_one: str,
@@ -82,16 +94,19 @@ def trace_through_alignment(
     :param pointers_to_trace_optimal_alignment: optimal alignment scores
     :param sequence_one: first sequence (x dimension of the matrix)
     :param sequence_two: second sequence (y dimension of the matrix)
-    :return: two strings representing optimal alignment
+    :return: two strings representing optimal alignment and result array
     """
     i = len(sequence_one)
     j = len(sequence_two)
     result_x_dimension = []
     result_y_dimension = []
+    _, _, trace = create_matrix_with_zeros(sequence_one, sequence_two)
     while i > 0 or j > 0:
+        trace[i][j] = 1
         if pointers_to_trace_optimal_alignment[i, j] in [2, 5, 6, 9]:
             result_x_dimension.append(sequence_one[i - 1])
             result_y_dimension.append(sequence_two[j - 1])
+            trace[i][j] = 2
             i -= 1
             j -= 1
         elif pointers_to_trace_optimal_alignment[i, j] in [3, 5, 7, 9]:
@@ -105,7 +120,7 @@ def trace_through_alignment(
     # Reverse the strings.
     inverted_x_result = "".join(result_x_dimension)[::-1]
     inverted_y_result = "".join(result_y_dimension)[::-1]
-    return inverted_x_result, inverted_y_result
+    return inverted_x_result, inverted_y_result, trace
 
 
 def initialise_grid(sequence_one: str, sequence_two: str, gap=1) -> np.ndarray:
