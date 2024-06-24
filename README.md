@@ -7,27 +7,27 @@ Project Organization
 ------------
 
     ├── .github
-    │   └── workflows
-    │       ├── black.yml
-    │       ├── mypy.yml
-    │       ├── pylint.yml
-    │       └── pytest.yml
+    │   └── workflows        <- Configuration for GitHub Actions workflows
+    │       ├── black.yml    <- Configuration for code formatting using Black
+    │       ├── mypy.yml     <- Configuration for type checking using MyPy
+    │       ├── pylint.yml   <- Configuration for linting code using Pylint
+    │       └── pytest.yml   <- Configuration for running tests using Pytes
     │
     ├── notebooks            <- Jupyter notebooks
     │   ├── .gitkeep
-    │   └── NeedmanWunschDemo.ipynb
+    │   └── NeedmanWunschDemo.ipynb  <- Notebook demonstrating the Needleman-Wunsch algorithm
     │
     ├── src                  <- Source code for use in this project
-    │   ├── app
+    │   ├── app              <- Frontend part of the application
     │   │   ├── assets
-    │   │   │   └── custom-styles.css
-    │   │   ├── app.py
-    │   │   ├── home_page.py
-    │   │   └── info_page.py
+    │   │   │   └── custom-styles.css    <- Custom CSS styles for the application
+    │   │   ├── app.py       <- Main application file
+    │   │   ├── home_page.py <- Code for the home page of the application
+    │   │   └── info_page.py <- Code for the informational page of the application
     │   │
-    │   └── features
-    │       ├── needleman_wunsch.py
-    │       └── test_needleman_wunsch.py
+    │   └── features         <- Backend part of the application
+    │       ├── needleman_wunsch.py       <- Implementation of the Needleman-Wunsch algorithm              
+    │       └── test_needleman_wunsch.py  <- Tests for the Needleman-Wunsch algorithm
     │
     ├── .pylintrc
     ├── .gitignore
