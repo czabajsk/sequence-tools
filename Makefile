@@ -24,17 +24,6 @@ docker-build:
 docker-run: docker-build
 	docker run --rm -p 8000:8000 $(DOCKER_IMAGE)
 
-.PHONY:
-docker-compose-run: docker-build
-	docker-compose build
-	docker-compose up
-
-.PHONY:
-run_debug_redis:
-	docker-compose -f docker-compose.debug.yml down
-	docker-compose -f docker-compose.debug.yml build
-	docker-compose -f docker-compose.debug.yml up
-
 # run tests
 .PHONY: docker-build
 test: 
