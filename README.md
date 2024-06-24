@@ -1,7 +1,7 @@
 Sequence Tools
 ==============================
 
-Simple implementations of selected sequence alignments algorithms
+App to demonstrate the Needleman–Wunsch algorithm.
 
 Project Organization
 ------------
@@ -39,5 +39,18 @@ Project Organization
     └── setup.py             <- Makes project pip installable (pip install -e .) so src can be imported
 
 --------
+### How to run the app?
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+```bash
+python src/app/app.py
+```
+and visit http://0.0.0.0:8000/ in your web browser.
+
+### Building and running basic app docker
+
+```bash
+make docker-build
+
+make docker-run
+```
+and visit http://0.0.0.0:8000/ in your web browser.
