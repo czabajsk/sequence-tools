@@ -1,0 +1,15 @@
+name: "mypy check"
+on: [pull_request]
+
+jobs:
+
+  static-type-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+    - run: pip install mypy==1.10.0
+    - name: Check types with mypy
+      run: mypy src
