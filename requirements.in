@@ -8,3 +8,5 @@ dash-bootstrap-components
 black
 # pylint
 # black[jupyter]
+# tests
+pytest
