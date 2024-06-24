@@ -89,7 +89,7 @@ def trace_through_alignment(
     pointers_to_trace_optimal_alignment: np.ndarray,
     sequence_one: str,
     sequence_two: str,
-) -> tuple[str, str]:
+) -> tuple[str, str, str]:
     """
     Builds optimal alignment based on the scores matrix
     :param pointers_to_trace_optimal_alignment: optimal alignment scores

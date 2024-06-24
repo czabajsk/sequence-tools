@@ -1,5 +1,6 @@
 # scripts
 numpy
+pandas
 # web and gui
 dash
 dash-bootstrap-components
@@ -7,3 +8,5 @@ dash-bootstrap-components
 black
 # pylint
 # black[jupyter]
+# tests
+pytest
