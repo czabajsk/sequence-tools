@@ -1,5 +1,6 @@
 # scripts
 numpy
+pandas
 # web and gui
 dash
 dash-bootstrap-components
