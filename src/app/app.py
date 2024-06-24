@@ -1,6 +1,7 @@
 """
 Web app
 """
+
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
@@ -15,8 +16,10 @@ from src.features.needleman_wunsch import (
     trace_through_alignment,
 )
 
-app = Dash(external_stylesheets=[dbc.themes.MINTY, dbc.themes.GRID],
-           suppress_callback_exceptions=True)
+app = Dash(
+    external_stylesheets=[dbc.themes.MINTY, dbc.themes.GRID],
+    suppress_callback_exceptions=True,
+)
 
 # Navbar definition
 navbar = dbc.NavbarSimple(
@@ -27,26 +30,27 @@ navbar = dbc.NavbarSimple(
     brand_href="/",
     color="info",
     dark=True,
-    className="fixed-top w-100"
+    className="fixed-top w-100",
 )
 
 # Main layout
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),  # Tracks the URL
-    navbar,
-    html.Div(id='page-content')  # Container for dynamic page content
-])
+app.layout = html.Div(
+    [
+        dcc.Location(id="url", refresh=False),  # Tracks the URL
+        navbar,
+        html.Div(id="page-content"),  # Container for dynamic page content
+    ]
+)
 
 
-@callback(Output('page-content', 'children'),
-          [Input('url', 'pathname')])
+@callback(Output("page-content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
     """
     Callback to update the page content based on the URL
     :param pathname: requested sub-page
     :return: layout of one of the sub-pages
     """
-    if pathname == '/explanation':
+    if pathname == "/explanation":
         return EXPLANATION_LAYOUT
     return HOME_LAYOUT  # Default to home
 
