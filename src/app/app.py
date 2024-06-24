@@ -64,7 +64,7 @@ def generate_raw_alignment(n_clicks, seq_1, seq_2):
     :param seq_2: sequence two
     :return: alignment with default parameters
     """
-    if n_clicks is None:
+    if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
     return needleman_wunsch(seq_1, seq_2)
 
@@ -82,7 +82,7 @@ def plot_score_table(n_clicks, seq_1, seq_2) -> dash_table.DataTable:
     :param seq_2: second sequence
     :return: widget
     """
-    if n_clicks is None:
+    if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
     scores_grid = initialise_grid(seq_1, seq_2)
     pointers_to_trace_optimal_alignment = fill_scores(scores_grid, seq_1, seq_2)
