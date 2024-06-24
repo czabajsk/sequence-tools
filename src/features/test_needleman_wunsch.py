@@ -4,7 +4,7 @@ The Needleman-Wunsch Algorithm tests
 
 from unittest import TestCase
 
-from src.features.needleman_wunsch import needleman_wunsch
+from needleman_wunsch import needleman_wunsch
 
 
 class TestNeedlemanWunsch(TestCase):
