@@ -12,4 +12,4 @@ jobs:
         python-version: '3.9'
     - run: pip install mypy==1.10.0
     - name: Check types with mypy
-      run: mypy src/app
+      run: mypy src/app --explicit-package-bases
