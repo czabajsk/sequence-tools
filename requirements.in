@@ -2,6 +2,7 @@
 numpy
 # web and gui
 dash
+dash-bootstrap-components
 # formatting and static code analysis
 black
 # pylint

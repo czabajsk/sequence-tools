@@ -1,23 +1,19 @@
 body {
     background-color: #E3F1F2; /* Ustawia kolor tła strony na jasny szary */
-    display: flex;
-    justify-content: center;   /* Wyśrodkowuje zawartość poziomo */
-    align-items: center;       /* Wyśrodkowuje zawartość pionowo */
-    height: 100vh;             /* Ustawia wysokość body na 100% wysokości widoku (viewport) */
-    margin: 0;                 /* Usuwa domyślne marginesy body */
     padding-top: 100px; /* Dodanie marginesu górnego */
 }
 
-h1 {
+h1, h2 {
   color: #EE6D80;
   text-align: center;
+}
+
+h1 {
   font-size: 45px;
   margin-bottom: 40px;
 }
 
 h2 {
-  color: #EE6D80;
-  text-align: center;
   font-size: 30px;
   margin-bottom: 10px;
   margin-top: 25px;
@@ -34,14 +30,19 @@ p, ul {
   margin-bottom: 10px;
 }
 
-pre {
-  font-size: 22px;
-  color: #EE6D80;
-  text-align: center; /* Wycentrowanie tekstu */
-}
-
-/* do zwiększonych marginesów */
-.content-with-margins {
-  margin-left: 10%;
-  margin-right: 10%;
+.code {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #EE6D80;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
 }
