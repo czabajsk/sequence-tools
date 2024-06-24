@@ -28,8 +28,7 @@ def create_how_it_works_section() -> list:
             at each possible pair of characters. The first row and the first column 
             is filled by subtracting the size of penalty (gap) starting from 0."""),
         html.Pre(children=[
-            html.Code("""
-        scores[i][0] = -i * gap for i = 1, 2, ..., m
+            html.Code("""scores[i][0] = -i * gap for i = 1, 2, ..., m
         scores[0][j] = -j * gap for j = 1, 2, ..., n""")
         ],
             className="code"),
@@ -39,8 +38,7 @@ def create_how_it_works_section() -> list:
                 If sequence one is represented as X and sequence two as Y,
                 then the matrix is filled based on the formula:"""),
             html.Pre(children=[
-                html.Code("""
-        scores[i][j] = max{
+                html.Code("""scores[i][j] = max{
             scores[i-1][j-1] + match/mismatch if X[i] = Y[j],
             scores[i-1][j] - gap for gap in sequence X,
             scores[i][j-1] - gap for gap in sequence Y
