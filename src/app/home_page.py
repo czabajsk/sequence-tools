@@ -29,7 +29,9 @@ def create_home_layout() -> dbc.Container:
                    id="generate_alignment",
                    color="info",
                    size="lg"),
-        html.Pre(id="body-div"),
+        html.Pre("(no content)",
+                 id="body-div",
+                 className="code mb-3 mt-3"),
         html.Div(id="default-alignment-viewer-output"),
         html.Div(id="output-container"),
     ], fluid=True)
