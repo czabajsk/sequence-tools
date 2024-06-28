@@ -1,6 +1,7 @@
 """
 Page 1 layout: Needleman-Wunsch algorithm input
 """
+
 from dash import html
 import dash_bootstrap_components as dbc
 
