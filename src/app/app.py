@@ -120,7 +120,7 @@ def to_column_label(column_labels, column_in_df) -> str:
     return column_labels[int(column_in_df)]
 
 
-def get_cell_styles(matrix):
+def get_cell_styles(matrix) -> dict:
     """
     Generates styles for cells based on trace
     """
