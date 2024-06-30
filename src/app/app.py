@@ -63,10 +63,12 @@ def display_page(pathname):
         State("seq_2", "value"),
         State("match_score", "value"),
         State("mismatch_penalty", "value"),
-        State("gap_penalty", "value")
+        State("gap_penalty", "value"),
     ],
 )
-def generate_raw_alignment(n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty):
+def generate_raw_alignment(
+    n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
+):
     """
     Display raw alignment
     :param n_clicks: button clicks
@@ -85,7 +87,9 @@ def generate_raw_alignment(n_clicks, seq_1, seq_2, match_score, mismatch_penalty
     mismatch_penalty = mismatch_penalty if mismatch_penalty is not None else 1
     gap_penalty = gap_penalty if gap_penalty is not None else 1
 
-    return needleman_wunsch(seq_1, seq_2, match=match_score, mismatch=mismatch_penalty, gap=gap_penalty)
+    return needleman_wunsch(
+        seq_1, seq_2, match=match_score, mismatch=mismatch_penalty, gap=gap_penalty
+    )
 
 
 @callback(
@@ -96,10 +100,12 @@ def generate_raw_alignment(n_clicks, seq_1, seq_2, match_score, mismatch_penalty
         State("seq_2", "value"),
         State("match_score", "value"),
         State("mismatch_penalty", "value"),
-        State("gap_penalty", "value")
+        State("gap_penalty", "value"),
     ],
 )
-def plot_score_table(n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty) -> dash_table.DataTable:
+def plot_score_table(
+    n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
+) -> dash_table.DataTable:
     """
     Plot scores
     :param n_clicks: button clicks
@@ -119,7 +125,14 @@ def plot_score_table(n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_
     gap_penalty = gap_penalty if gap_penalty is not None else 1
 
     scores_grid = initialise_grid(seq_1, seq_2, gap=gap_penalty)
-    pointers_to_trace_optimal_alignment = fill_scores(scores_grid, seq_1, seq_2, gap=gap_penalty, match=match_score, mismatch=mismatch_penalty)
+    pointers_to_trace_optimal_alignment = fill_scores(
+        scores_grid,
+        seq_1,
+        seq_2,
+        gap=gap_penalty,
+        match=match_score,
+        mismatch=mismatch_penalty,
+    )
     _, _, trace = trace_through_alignment(
         pointers_to_trace_optimal_alignment, seq_1, seq_2
     )
