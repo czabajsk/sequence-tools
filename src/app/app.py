@@ -2,6 +2,7 @@
 Web app
 """
 
+import re # regular expression operations
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
@@ -41,6 +42,16 @@ app.layout = html.Div(
         html.Div(id="page-content"),  # Container for dynamic page content
     ]
 )
+
+
+def validate_sequence(sequence):
+    """
+    Validate that the sequence contains only letters and hyphens
+    :param sequence: sequence to validate
+    :return: boolean indicating if the sequence is valid
+    """
+    pattern = re.compile("^[A-Za-z-]*$")
+    return bool(pattern.fullmatch(sequence))
 
 
 @callback(Output("page-content", "children"), [Input("url", "pathname")])
@@ -83,6 +94,9 @@ def generate_raw_alignment(
     if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
 
+    if not validate_sequence(seq_1) or not validate_sequence(seq_2):
+        return "Sequences can only contain letters and hyphens."
+
     # Use default values if any parameter is None
     match_score = match_score if match_score is not None else 1
     mismatch_penalty = mismatch_penalty if mismatch_penalty is not None else 1
@@ -120,6 +134,9 @@ def plot_score_table(
     """
     if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
+
+    if not validate_sequence(seq_1) or not validate_sequence(seq_2):
+        return ""
 
     # Use default values if any parameter is None
     match_score = match_score if match_score is not None else 1
