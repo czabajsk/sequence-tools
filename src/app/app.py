@@ -69,6 +69,7 @@ def display_page(pathname):
 def generate_raw_alignment(
     n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
 ):
+    # pylint: disable=too-many-arguments
     """
     Display raw alignment
     :param n_clicks: button clicks
@@ -106,6 +107,7 @@ def generate_raw_alignment(
 def plot_score_table(
     n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
 ) -> dash_table.DataTable:
+    # pylint: disable=too-many-arguments
     """
     Plot scores
     :param n_clicks: button clicks
@@ -189,4 +191,5 @@ def get_cell_styles(matrix) -> list[dict]:
 
 
 if __name__ == "__main__":
-    app.run_server(host="0.0.0.0", port="8000", debug=True)
+  #  app.run_server(host="0.0.0.0", port="8000", debug=True)
+    app.run_server(debug=True)
