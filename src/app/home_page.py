@@ -1,6 +1,7 @@
 """
 Page 1 layout: Needleman-Wunsch algorithm input
 """
+
 from dash import html
 import dash_bootstrap_components as dbc
 
@@ -10,6 +11,7 @@ def create_home_layout() -> dbc.Container:
     Returns home page layout
     :return: dbc.Container
     """
+    
     return dbc.Container([
         html.Div(style={"height": "70px"}),  # Spacer
         html.H1(children="Needleman-Wunsch Demo", style={"textAlign": "center"}),

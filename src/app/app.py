@@ -1,22 +1,25 @@
 """
 Web app
 """
+
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
 import pandas as pd
 
-from src.app.home_page import HOME_LAYOUT
-from src.app.info_page import EXPLANATION_LAYOUT
-from src.features.needleman_wunsch import (
+from home_page import HOME_LAYOUT
+from info_page import EXPLANATION_LAYOUT
+from features.needleman_wunsch import (
     needleman_wunsch,
     initialise_grid,
     fill_scores,
     trace_through_alignment,
 )
 
-app = Dash(external_stylesheets=[dbc.themes.MINTY, dbc.themes.GRID],
-           suppress_callback_exceptions=True)
+app = Dash(
+    external_stylesheets=[dbc.themes.MINTY, dbc.themes.GRID],
+    suppress_callback_exceptions=True,
+)
 
 # Navbar definition
 navbar = dbc.NavbarSimple(
@@ -27,26 +30,27 @@ navbar = dbc.NavbarSimple(
     brand_href="/",
     color="info",
     dark=True,
-    className="fixed-top w-100"
+    className="fixed-top w-100",
 )
 
 # Main layout
-app.layout = html.Div([
-    dcc.Location(id='url', refresh=False),  # Tracks the URL
-    navbar,
-    html.Div(id='page-content')  # Container for dynamic page content
-])
+app.layout = html.Div(
+    [
+        dcc.Location(id="url", refresh=False),  # Tracks the URL
+        navbar,
+        html.Div(id="page-content"),  # Container for dynamic page content
+    ]
+)
 
 
-@callback(Output('page-content', 'children'),
-          [Input('url', 'pathname')])
+@callback(Output("page-content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
     """
     Callback to update the page content based on the URL
     :param pathname: requested sub-page
     :return: layout of one of the sub-pages
     """
-    if pathname == '/explanation':
+    if pathname == "/explanation":
         return EXPLANATION_LAYOUT
     return HOME_LAYOUT  # Default to home
 
@@ -146,7 +150,7 @@ def to_column_label(column_labels, column_in_df) -> str:
     return column_labels[int(column_in_df)]
 
 
-def get_cell_styles(matrix):
+def get_cell_styles(matrix) -> list[dict]:
     """
     Generates styles for cells based on trace
     """
@@ -172,4 +176,4 @@ def get_cell_styles(matrix):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run_server(host="0.0.0.0", port="8000", debug=True)

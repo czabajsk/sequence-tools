@@ -28,7 +28,7 @@ def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, 
     return "\n".join([inverted_x_result, inverted_y_result])
 
 
-def fill_scores(#pylint: disable=too-many-arguments
+def fill_scores(  # pylint: disable=too-many-arguments
     scores_grid, sequence_one, sequence_two, gap=1, match=1, mismatch=1, verbose=False
 ):
     """
@@ -42,8 +42,9 @@ def fill_scores(#pylint: disable=too-many-arguments
     :param verbose: if True prints the output
     :return:
     """
-    grid_x_dimension, grid_y_dimension, pointers_to_trace_optimal_alignment = create_matrix_with_zeros(sequence_one,
-                                                                                                       sequence_two)
+    grid_x_dimension, grid_y_dimension, pointers_to_trace_optimal_alignment = (
+        create_matrix_with_zeros(sequence_one, sequence_two)
+    )
     pointers_to_trace_optimal_alignment[:, 0] = 3
     pointers_to_trace_optimal_alignment[0, :] = 4
     temporary_scores = np.zeros(3)
@@ -88,7 +89,7 @@ def trace_through_alignment(
     pointers_to_trace_optimal_alignment: np.ndarray,
     sequence_one: str,
     sequence_two: str,
-) -> tuple[str, str]:
+) -> tuple[str, str, str]:
     """
     Builds optimal alignment based on the scores matrix
     :param pointers_to_trace_optimal_alignment: optimal alignment scores
