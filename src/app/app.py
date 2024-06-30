@@ -2,7 +2,7 @@
 Web app
 """
 
-import re # regular expression operations
+import re  # regular expression operations
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
