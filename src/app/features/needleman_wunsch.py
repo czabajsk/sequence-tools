@@ -2,7 +2,11 @@
 The Needleman-Wunsch Algorithm
 """
 
+import logging
 import numpy as np
+
+
+logger = logging.getLogger("needleman_wunsch")
 
 
 def needleman_wunsch(sequence_one: str, sequence_two: str, match=1, mismatch=1, gap=1):
@@ -65,8 +69,8 @@ def fill_scores(  # pylint: disable=too-many-arguments
             if temporary_scores[2] == tmax:
                 pointers_to_trace_optimal_alignment[i + 1, j + 1] += 4
         if verbose:
-            print(f"\n\nIteration: {i}")
-            print(pointers_to_trace_optimal_alignment)
+            logger.info("Iteration: %i", i)
+            logger.info(pointers_to_trace_optimal_alignment)
     return pointers_to_trace_optimal_alignment
 
 
