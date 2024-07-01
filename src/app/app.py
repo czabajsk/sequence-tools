@@ -3,6 +3,7 @@ Web app
 """
 
 import re  # regular expression operations
+import logging
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
@@ -16,6 +17,8 @@ from features.needleman_wunsch import (
     fill_scores,
     trace_through_alignment,
 )
+
+logger = logging.getLogger(__name__)
 
 app = Dash(
     external_stylesheets=[dbc.themes.MINTY, dbc.themes.GRID],
@@ -155,7 +158,7 @@ def plot_score_table(
     _, _, trace = trace_through_alignment(
         pointers_to_trace_optimal_alignment, seq_1, seq_2
     )
-    print(trace)
+    logger.debug(trace)
     columns = list(seq_2)
     columns.insert(0, "")
     first_column = list(seq_1)

@@ -6,7 +6,4 @@ dash
 dash-bootstrap-components
 # formatting and static code analysis
 black
-# pylint
-# black[jupyter]
-# tests
 pytest
