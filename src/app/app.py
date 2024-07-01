@@ -2,6 +2,7 @@
 Web app
 """
 
+import re  # regular expression operations
 import dash_bootstrap_components as dbc
 from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 from dash.exceptions import PreventUpdate
@@ -43,6 +44,16 @@ app.layout = html.Div(
 )
 
 
+def validate_sequence(sequence):
+    """
+    Validate that the sequence contains only letters and hyphens
+    :param sequence: sequence to validate
+    :return: boolean indicating if the sequence is valid
+    """
+    pattern = re.compile("^[A-Za-z-]*$")
+    return bool(pattern.fullmatch(sequence))
+
+
 @callback(Output("page-content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
     """
@@ -58,38 +69,89 @@ def display_page(pathname):
 @callback(
     Output("body-div", "children"),
     [Input("generate_alignment", "n_clicks")],
-    [State("seq_1", "value"), State("seq_2", "value")],
+    [
+        State("seq_1", "value"),
+        State("seq_2", "value"),
+        State("match_score", "value"),
+        State("mismatch_penalty", "value"),
+        State("gap_penalty", "value"),
+    ],
 )
-def generate_raw_alignment(n_clicks, seq_1, seq_2):
+def generate_raw_alignment(
+    n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
+):
+    # pylint: disable=too-many-arguments
     """
     Display raw alignment
     :param n_clicks: button clicks
     :param seq_1: sequence one
     :param seq_2: sequence two
-    :return: alignment with default parameters
+    :param match_score: match score
+    :param mismatch_penalty: mismatch penalty
+    :param gap_penalty: gap penalty
+    :return: alignment with given or default parameters
     """
     if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
-    return needleman_wunsch(seq_1, seq_2)
+
+    if not validate_sequence(seq_1) or not validate_sequence(seq_2):
+        return "Sequences can only contain letters and hyphens."
+
+    # Use default values if any parameter is None
+    match_score = match_score if match_score is not None else 1
+    mismatch_penalty = mismatch_penalty if mismatch_penalty is not None else 1
+    gap_penalty = gap_penalty if gap_penalty is not None else 1
+
+    return needleman_wunsch(
+        seq_1, seq_2, match=match_score, mismatch=mismatch_penalty, gap=gap_penalty
+    )
 
 
 @callback(
     Output("output-container", "children"),
     [Input("generate_alignment", "n_clicks")],
-    [State("seq_1", "value"), State("seq_2", "value")],
+    [
+        State("seq_1", "value"),
+        State("seq_2", "value"),
+        State("match_score", "value"),
+        State("mismatch_penalty", "value"),
+        State("gap_penalty", "value"),
+    ],
 )
-def plot_score_table(n_clicks, seq_1, seq_2) -> dash_table.DataTable:
+def plot_score_table(
+    n_clicks, seq_1, seq_2, match_score, mismatch_penalty, gap_penalty
+) -> dash_table.DataTable:
+    # pylint: disable=too-many-arguments
     """
     Plot scores
     :param n_clicks: button clicks
     :param seq_1: first sequence
     :param seq_2: second sequence
+    :param match_score: match score
+    :param mismatch_penalty: mismatch penalty
+    :param gap_penalty: gap penalty
     :return: widget
     """
     if n_clicks is None or seq_1 is None or seq_2 is None:
         raise PreventUpdate
-    scores_grid = initialise_grid(seq_1, seq_2)
-    pointers_to_trace_optimal_alignment = fill_scores(scores_grid, seq_1, seq_2)
+
+    if not validate_sequence(seq_1) or not validate_sequence(seq_2):
+        return ""
+
+    # Use default values if any parameter is None
+    match_score = match_score if match_score is not None else 1
+    mismatch_penalty = mismatch_penalty if mismatch_penalty is not None else 1
+    gap_penalty = gap_penalty if gap_penalty is not None else 1
+
+    scores_grid = initialise_grid(seq_1, seq_2, gap=gap_penalty)
+    pointers_to_trace_optimal_alignment = fill_scores(
+        scores_grid,
+        seq_1,
+        seq_2,
+        gap=gap_penalty,
+        match=match_score,
+        mismatch=mismatch_penalty,
+    )
     _, _, trace = trace_through_alignment(
         pointers_to_trace_optimal_alignment, seq_1, seq_2
     )
