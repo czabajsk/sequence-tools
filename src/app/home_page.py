@@ -19,55 +19,100 @@ def create_home_layout() -> dbc.Container:
             dbc.Row(
                 [
                     dbc.Col(
-                        [
-                            dbc.Input(
-                                placeholder="Sequence A",
-                                type="text",
-                                size="lg",
-                                className="mb-3",
-                                required=True,
-                                id="seq_1",
-                            ),
-                            dbc.Input(
-                                placeholder="Sequence B",
-                                type="text",
-                                size="lg",
-                                className="mb-3",
-                                required=True,
-                                id="seq_2",
-                            ),
-                        ],
-                        width=6,
+                        dbc.Card(
+                            dbc.CardBody(
+                                [
+                                    html.H4(
+                                        children="Sequences",
+                                        style={"textAlign": "left"},
+                                    ),
+                                    dbc.Textarea(
+                                        placeholder="Sequence A",
+                                        size="lg",
+                                        className="mb-4",
+                                        required=True,
+                                        id="seq_1",
+                                        style={"resize": "none"},
+                                    ),
+                                    dbc.Textarea(
+                                        placeholder="Sequence B",
+                                        size="lg",
+                                        className="mb-2",
+                                        required=True,
+                                        id="seq_2",
+                                        style={"resize": "none"},
+                                    ),
+                                ]
+                            )
+                        ),
+                        width=9,
                     ),
                     dbc.Col(
-                        [
-                            dbc.Input(
-                                placeholder="Match Score (default: 1)",
-                                type="number",
-                                size="lg",
-                                className="mb-3",
-                                id="match_score",
+                        dbc.Card(
+                            dbc.CardBody(
+                                [
+                                    html.H4(
+                                        children="Parameters",
+                                        style={"textAlign": "left"},
+                                    ),
+                                    dbc.InputGroup(
+                                        [
+                                            dbc.InputGroupText(
+                                                "Match Score", style={"width": "70%"}
+                                            ),
+                                            dbc.Input(
+                                                placeholder="1",
+                                                type="number",
+                                                id="match_score",
+                                                size="lg",
+                                            ),
+                                        ],
+                                        className="mb-3 mt-3",
+                                    ),
+                                    dbc.InputGroup(
+                                        [
+                                            dbc.InputGroupText(
+                                                "Mismatch Penalty",
+                                                style={"width": "70%"},
+                                            ),
+                                            dbc.Input(
+                                                placeholder="1",
+                                                type="number",
+                                                id="mismatch_penalty",
+                                                size="lg",
+                                            ),
+                                        ],
+                                        className="mb-3",
+                                    ),
+                                    dbc.InputGroup(
+                                        [
+                                            dbc.InputGroupText(
+                                                "Gap Penalty", style={"width": "70%"}
+                                            ),
+                                            dbc.Input(
+                                                placeholder="1",
+                                                type="number",
+                                                id="gap_penalty",
+                                                size="lg",
+                                            ),
+                                        ],
+                                        className="mb-1",
+                                    ),
+                                ]
                             ),
-                            dbc.Input(
-                                placeholder="Mismatch Penalty (default: 1)",
-                                type="number",
-                                size="lg",
-                                className="mb-3",
-                                id="mismatch_penalty",
-                            ),
-                            dbc.Input(
-                                placeholder="Gap Penalty (default: 1)",
-                                type="number",
-                                size="lg",
-                                className="mb-3",
-                                id="gap_penalty",
-                            ),
-                        ],
-                        width=6,
+                            style={"width": "18rem"},
+                        ),
+                        width=3,
                     ),
                 ]
             ),
-            dbc.Button("Generate", id="generate_alignment", color="info", size="lg"),
+            dbc.Button(
+                "Generate",
+                id="generate_alignment",
+                color="info",
+                size="lg",
+                className="mt-3",
+            ),
             html.Pre("(no content)", id="body-div", className="code mb-3 mt-3"),
             html.Div(id="default-alignment-viewer-output"),
             html.Div(id="output-container"),
